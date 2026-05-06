@@ -91,6 +91,14 @@ services:
     App\Infrastructure\EventStore\:
         resource: '../src/Infrastructure/EventStore'
 
+    App\Infrastructure\EventStore\EventStoreInterface:
+        alias: App\Infrastructure\EventStore\DbalEventStore
+        public: true
+
+    App\Infrastructure\EventStore\SnapshotStoreInterface:
+        alias: App\Infrastructure\EventStore\SnapshotStore
+        public: true
+
     App\Infrastructure\Outbox\:
         resource: '../src/Infrastructure/Outbox'
 
