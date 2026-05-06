@@ -99,6 +99,15 @@ services:
         alias: App\Infrastructure\EventStore\SnapshotStore
         public: true
 
+    App\Domain\Order\Services\OrderRepositoryInterface:
+        alias: App\Infrastructure\Persistence\Order\DbalOrderRepository
+        public: true
+
+    App\Infrastructure\Persistence\Order\DbalOrderRepository:
+        arguments:
+            $eventStore: '@App\Infrastructure\EventStore\EventStoreInterface'
+            $snapshotStore: '@App\Infrastructure\EventStore\SnapshotStoreInterface'
+
     App\Infrastructure\Outbox\:
         resource: '../src/Infrastructure/Outbox'
 
