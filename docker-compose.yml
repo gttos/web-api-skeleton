@@ -18,6 +18,18 @@ services:
     networks:
       - mycompany_network_backend
 
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "event-sourcing-lab-cookie"
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"   # Management UI
+    networks:
+      - mycompany_network_backend
+
 networks:
   mycompany_network_backend:
     external: true

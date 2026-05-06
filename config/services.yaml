@@ -72,6 +72,43 @@ services:
     #    alias:  App\Infrastructure\Persistence\Repositories\MyModelRepository
     #    public: true
 
+    # Event Sourcing Lab — Bounded Contexts
+    App\Application\Order\:
+        resource: '../src/Application/Order'
+
+    App\Application\Payment\:
+        resource: '../src/Application/Payment'
+
+    App\Application\Stock\:
+        resource: '../src/Application/Stock'
+
+    App\Application\Notification\:
+        resource: '../src/Application/Notification'
+
+    App\Application\Audit\:
+        resource: '../src/Application/Audit'
+
+    App\Infrastructure\EventStore\:
+        resource: '../src/Infrastructure/EventStore'
+
+    App\Infrastructure\Outbox\:
+        resource: '../src/Infrastructure/Outbox'
+
+    App\Infrastructure\Projection\:
+        resource: '../src/Infrastructure/Projection'
+
+    App\Infrastructure\Messaging\:
+        resource: '../src/Infrastructure/Messaging'
+
+    App\Infrastructure\DeadLetter\:
+        resource: '../src/Infrastructure/DeadLetter'
+
+    App\Infrastructure\Observability\:
+        resource: '../src/Infrastructure/Observability'
+
+    App\Infrastructure\ErrorInjection\:
+        resource: '../src/Infrastructure/ErrorInjection'
+
 when@dev: &dev
     services:
         App\Resources\Fixtures\:
