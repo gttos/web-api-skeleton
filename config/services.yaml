@@ -88,6 +88,22 @@ services:
     App\Application\Audit\:
         resource: '../src/Application/Audit'
 
+    App\Application\Payment\CommandHandlers\:
+        resource: '../src/Application/Payment/CommandHandlers/*'
+        tags: [{ name: messenger.message_handler, bus: event.bus }]
+
+    App\Application\Stock\CommandHandlers\:
+        resource: '../src/Application/Stock/CommandHandlers/*'
+        tags: [{ name: messenger.message_handler, bus: event.bus }]
+
+    App\Application\Notification\CommandHandlers\:
+        resource: '../src/Application/Notification/CommandHandlers/*'
+        tags: [{ name: messenger.message_handler, bus: event.bus }]
+
+    App\Application\Audit\CommandHandlers\:
+        resource: '../src/Application/Audit/CommandHandlers/*'
+        tags: [{ name: messenger.message_handler, bus: event.bus }]
+
     App\Infrastructure\EventStore\:
         resource: '../src/Infrastructure/EventStore'
 
@@ -97,6 +113,10 @@ services:
 
     App\Infrastructure\EventStore\SnapshotStoreInterface:
         alias: App\Infrastructure\EventStore\SnapshotStore
+        public: true
+
+    App\Domain\Order\Services\OrderServiceInterface:
+        alias: App\Application\Order\OrderService
         public: true
 
     App\Domain\Order\Services\OrderRepositoryInterface:
@@ -113,6 +133,10 @@ services:
 
     App\Infrastructure\Projection\:
         resource: '../src/Infrastructure/Projection'
+
+    App\Infrastructure\Projection\ProjectionEngine:
+        arguments:
+            $projectors: !tagged_iterator app.projector
 
     App\Infrastructure\Messaging\:
         resource: '../src/Infrastructure/Messaging'
