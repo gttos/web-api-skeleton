@@ -80,4 +80,11 @@ framework:
             Somnambulist\Components\Jobs\AbstractJob: job_queue
             Somnambulist\Components\Commands\AbstractCommand: sync
             Somnambulist\Components\Queries\AbstractQuery: sync
-            # Los integration events se añadirán en fases posteriores
+
+            App\Domain\Order\Events\OrderCreatedIntegration: order_events
+            App\Domain\Payment\Events\PaymentSucceeded: order_events
+            App\Domain\Payment\Events\PaymentFailed: order_events
+            App\Domain\Stock\Events\StockReserved: order_events
+            App\Domain\Stock\Events\StockReservationFailed: order_events
+            App\Domain\Notification\Events\NotificationSent: order_events
+            App\Domain\Notification\Events\NotificationFailed: order_events
