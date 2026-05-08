@@ -33,7 +33,8 @@ services:
             $allowInlineLineBreaks:      true
             $ignoreEmptyContextAndExtra: true
 
-
+    monolog.formatter.json:
+        class: Monolog\Formatter\JsonFormatter
 
     #
     # Allow injecting service container in Doctrine Migrations
@@ -153,6 +154,14 @@ services:
 
     App\Infrastructure\DeadLetter\:
         resource: '../src/Infrastructure/DeadLetter'
+
+    App\Infrastructure\DeadLetter\DeadLetterStoreInterface:
+        alias: App\Infrastructure\DeadLetter\DeadLetterStore
+        public: true
+
+    App\Infrastructure\DeadLetter\DeadLetterSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
 
     App\Infrastructure\Observability\:
         resource: '../src/Infrastructure/Observability'
