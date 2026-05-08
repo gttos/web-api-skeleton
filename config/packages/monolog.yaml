@@ -1,4 +1,11 @@
 monolog:
+    handlers:
+        main:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+            channels: ["!event"]
+            formatter: monolog.formatter.json
     channels:
         - deprecation
 
@@ -6,14 +13,10 @@ when@dev:
     monolog:
         handlers:
             main:
-                type: syslogudp
-                host: "%env(SYSLOG_HOST)%"
-                port: "%env(int:SYSLOG_PORT)%"
-                facility: local1
-                ident: "%env(APP_SERVICE_APP)%"
+                type: stream
+                path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: [ "!event" ]
-                formatter: monolog.formatter.syslog
+                formatter: monolog.formatter.json
             console:
                 type: console
                 process_psr_3_messages: false
