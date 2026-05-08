@@ -11,3 +11,23 @@ api.index:
         operation: 'getListOfServices'
         responses:
             200: 'schemas/ServiceList'
+
+app_api_v1_orders_create:
+    path: /api/v1/orders
+    controller: App\Delivery\Api\V1\Orders\CreateOrderController
+    methods: [POST]
+
+app_api_v1_orders_list:
+    path: /api/v1/orders
+    controller: App\Delivery\Api\V1\Orders\ListOrdersController
+    methods: [GET]
+
+app_api_v1_orders_get:
+    path: /api/v1/orders/{orderId}
+    controller: App\Delivery\Api\V1\Orders\GetOrderController
+    methods: [GET]
+
+app_api_v1_orders_cancel:
+    path: /api/v1/orders/{orderId}
+    controller: App\Delivery\Api\V1\Orders\CancelOrderController
+    methods: [DELETE]
