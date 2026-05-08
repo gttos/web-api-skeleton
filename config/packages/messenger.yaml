@@ -21,6 +21,7 @@ framework:
             event.bus:
                 middleware:
                     - App\Infrastructure\Messaging\CorrelationIdMiddleware
+                    - App\Infrastructure\ErrorInjection\ErrorInjectionMiddleware
             job.queue:
                 middleware:
                     - App\Infrastructure\Messaging\CorrelationIdMiddleware

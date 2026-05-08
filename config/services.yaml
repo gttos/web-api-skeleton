@@ -108,6 +108,16 @@ services:
     App\Infrastructure\EventStore\:
         resource: '../src/Infrastructure/EventStore'
 
+    App\Infrastructure\EventStore\Upcasting\UpcasterChain:
+        arguments:
+            $upcasters:
+                - '@App\Infrastructure\EventStore\Upcasting\Upcasters\OrderCreatedV1ToV2Upcaster'
+
+    App\Infrastructure\EventStore\DbalEventStore:
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
+            $upcasterChain: '@App\Infrastructure\EventStore\Upcasting\UpcasterChain'
+
     App\Infrastructure\EventStore\EventStoreInterface:
         alias: App\Infrastructure\EventStore\DbalEventStore
         public: true
@@ -158,6 +168,19 @@ services:
 
     App\Infrastructure\ErrorInjection\:
         resource: '../src/Infrastructure/ErrorInjection'
+
+    redis.client:
+        class: Predis\Client
+        arguments:
+            - '%env(REDIS_URL)%'
+
+    App\Infrastructure\ErrorInjection\ErrorFlagStoreInterface:
+        alias: App\Infrastructure\ErrorInjection\RedisErrorFlagStore
+        public: true
+
+    App\Infrastructure\ErrorInjection\RedisErrorFlagStore:
+        arguments:
+            $redis: '@redis.client'
 
 when@dev: &dev
     services:
