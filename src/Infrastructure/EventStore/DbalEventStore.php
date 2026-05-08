@@ -10,7 +10,10 @@ use Doctrine\DBAL\Connection;
 
 final class DbalEventStore implements EventStoreInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly \App\Infrastructure\EventStore\Upcasting\UpcasterChain $upcasterChain = new \App\Infrastructure\EventStore\Upcasting\UpcasterChain(),
+    ) {}
 
     public function append(
         string $aggregateId,
@@ -62,7 +65,15 @@ final class DbalEventStore implements EventStoreInterface
         );
 
         return EventStream::fromStoredEvents(array_map(
-            fn(array $row) => StoredEvent::fromRow($row),
+            fn(array $row) => StoredEvent::fromRow(array_merge($row, [
+                'payload' => json_encode(
+                    $this->upcasterChain->upcast(
+                        $row['event_type'],
+                        json_decode($row['payload'], true),
+                        (int) $row['event_version']
+                    )
+                ),
+            ])),
             $rows
         ));
     }
@@ -75,7 +86,15 @@ final class DbalEventStore implements EventStoreInterface
         );
 
         return EventStream::fromStoredEvents(array_map(
-            fn(array $row) => StoredEvent::fromRow($row),
+            fn(array $row) => StoredEvent::fromRow(array_merge($row, [
+                'payload' => json_encode(
+                    $this->upcasterChain->upcast(
+                        $row['event_type'],
+                        json_decode($row['payload'], true),
+                        (int) $row['event_version']
+                    )
+                ),
+            ])),
             $rows
         ));
     }

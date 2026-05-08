@@ -18,6 +18,7 @@ framework:
                 middleware:
             event.bus:
                 middleware:
+                    - App\Infrastructure\ErrorInjection\ErrorInjectionMiddleware
             job.queue:
                 middleware:
 
