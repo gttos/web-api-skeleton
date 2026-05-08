@@ -13,14 +13,18 @@ framework:
             command.bus:
                 middleware:
                     - doctrine_transaction
+                    - App\Infrastructure\Messaging\CorrelationIdMiddleware
 
             query.bus:
                 middleware:
+                    - App\Infrastructure\Messaging\CorrelationIdMiddleware
             event.bus:
                 middleware:
+                    - App\Infrastructure\Messaging\CorrelationIdMiddleware
                     - App\Infrastructure\ErrorInjection\ErrorInjectionMiddleware
             job.queue:
                 middleware:
+                    - App\Infrastructure\Messaging\CorrelationIdMiddleware
 
         transports:
             # Transport para integration events del Order Context
